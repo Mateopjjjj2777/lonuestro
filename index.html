@@ -322,7 +322,6 @@
         </div>
         <p class="game-accessible-progress" data-game-progress aria-live="polite">la constelación espera su primera luz</p>
       </div>
-    </section>
 
     <section class="chapter rose-reveal" id="rose-reveal" aria-labelledby="rose-reveal-title" hidden>
       <div class="deep-sky" aria-hidden="true"></div>
@@ -357,8 +356,10 @@
         <img src="./assets/icons/rose.svg" alt="Abrir el lugar secreto que guarda la rosa">
       </button>
     </section>
+    </section>
 
-    <section class="chapter secret" id="secret" aria-labelledby="secret-title" hidden>
+    <div data-post-game hidden inert aria-hidden="true">
+    <section class="chapter secret" id="secret" aria-labelledby="secret-title">
       <div class="secret-shelter" aria-hidden="true"></div>
       <header class="secret-heading">
         <span class="eyebrow"> </span>
@@ -399,7 +400,7 @@
       <button type="button" class="story-link replay-rose" data-replay-rose>volver a buscar la rosa</button>
     </section>
 
-    <section class="chapter finale" id="finale" aria-labelledby="finale-title" hidden>
+    <section class="chapter finale" id="finale" aria-labelledby="finale-title">
       <h2 class="visually-hidden" id="finale-title">Un lugar que sigue esperando</h2>
       <div class="finale-thoughts">
         <p class="reveal"> </p>
@@ -426,6 +427,7 @@
       </div>
       <a class="story-link back-to-star reveal" href="#threshold">volver a nuestra estrella</a>
     </section>
+    </div>
   </main>
   <script type="module" src="./js/app.js"></script>
 </body>

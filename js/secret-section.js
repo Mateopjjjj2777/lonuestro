@@ -1,13 +1,5 @@
 const completionKey = "andy-found-the-rose";
 
-function readCompletion() {
-  try {
-    return localStorage.getItem(completionKey) === "true";
-  } catch {
-    return false;
-  }
-}
-
 function saveCompletion() {
   try {
     localStorage.setItem(completionKey, "true");
@@ -17,26 +9,25 @@ function saveCompletion() {
 }
 
 export function initSecretSection() {
+  const postGame = document.querySelector("[data-post-game]");
   const secret = document.querySelector("#secret");
   const finale = document.querySelector("#finale");
   const returnPortal = document.querySelector(".return-portal");
   const replayButton = document.querySelector("[data-replay-rose]");
   const secretTitle = document.querySelector("#secret-title");
   let gameReset = null;
-  const completed = readCompletion();
+  const completed = false;
   let unlocked = completed;
 
   const setPostGameAccess = (available) => {
-    if (!secret || !finale) return;
-    [secret, finale].forEach((section) => {
-      section.hidden = !available;
-      section.inert = !available;
-      section.setAttribute("aria-hidden", String(!available));
-    });
+    if (!postGame) return;
+    postGame.hidden = !available;
+    postGame.inert = !available;
+    postGame.setAttribute("aria-hidden", String(!available));
   };
 
   const showUnlocked = ({ move = true } = {}) => {
-    if (!secret || !finale) return;
+    if (!postGame || !secret || !finale) return;
     setPostGameAccess(true);
     document.body.classList.add("rose-found");
     if (returnPortal) returnPortal.hidden = false;
@@ -73,8 +64,7 @@ export function initSecretSection() {
     });
   });
 
-  if (completed) showUnlocked({ move: false });
-  else setPostGameAccess(false);
+  setPostGameAccess(false);
 
   return { completed, unlock, setGameReset };
 }
