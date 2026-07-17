@@ -81,7 +81,8 @@ export function initRoseGame({ completed = false, onUnlock } = {}) {
       progress.textContent = "la constelación espera su primera luz";
       return;
     }
-    progress.textContent = poeticProgress[visited.size - 1];
+    const progressIndex = Math.round(((visited.size - 1) / (starMemories.length - 1)) * (poeticProgress.length - 1));
+    progress.textContent = poeticProgress[progressIndex];
     if (visited.size === starMemories.length) {
       instruction.textContent = "todavía falta una · no busques la más brillante · busca la que siempre consigue hacerme volver a ti";
       finalStar.hidden = false;

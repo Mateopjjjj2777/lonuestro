@@ -68,6 +68,27 @@ export const starMemories = [
     y: 82,
     size: ".52rem",
     text: "esta estrella sabe que podría buscar durante toda una noche y aun así nunca confundiría tu luz"
+  },
+  {
+    id: "volver-encontrarnos",
+    x: 37,
+    y: 36,
+    size: ".45rem",
+    text: "aquí guardé todas las veces que, incluso después de los días difíciles, volvimos a encontrarnos como si nuestros corazones todavía supieran el camino de memoria"
+  },
+  {
+    id: "mi-lugar",
+    x: 52,
+    y: 53,
+    size: ".41rem",
+    text: "esta estrella aprendió que mi lugar favorito no es una ciudad ni un rincón del mundo, sino ese instante en el que me llamas “Mate0” o “Amoooor” y todo dentro de mí vuelve a sentirse en casa"
+  },
+  {
+    id: "hasta-manana",
+    x: 52,
+    y: 74,
+    size: ".48rem",
+    text: "aquí guardé cada “hasta mañana” que en realidad quería decir “quédate un poquito más”, porque contigo hasta las despedidas pequeñas siempre estuvieron llenas de ganas de volver a elegirnos"
   }
 ];
 

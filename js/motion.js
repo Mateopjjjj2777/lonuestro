@@ -5,14 +5,17 @@ function revealContent() {
   const elements = [...document.querySelectorAll(".reveal")];
   if (motionPreference.matches || !("IntersectionObserver" in window)) {
     elements.forEach((element) => element.classList.add("is-visible"));
-    return;
+    return () => {};
   }
 
+  const reveal = (element) => {
+    element.classList.add("is-visible");
+    observer.unobserve(element);
+  };
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
+      reveal(entry.target);
     });
   }, {
     rootMargin: "0px 0px -12% 0px",
@@ -20,6 +23,20 @@ function revealContent() {
   });
 
   elements.forEach((element) => observer.observe(element));
+  let index = 0;
+  return () => {
+    const line = window.innerHeight * 0.88;
+    while (index < elements.length) {
+      const element = elements[index];
+      if (element.classList.contains("is-visible")) {
+        index += 1;
+        continue;
+      }
+      if (!element.getClientRects().length || element.getBoundingClientRect().top > line) return;
+      reveal(element);
+      index += 1;
+    }
+  };
 }
 
 function seedStars(container, count) {
@@ -49,9 +66,10 @@ function createNightLayers() {
   });
 }
 
-function trackJourney() {
+function trackJourney(revealPassed) {
   let frame = 0;
   const update = () => {
+    revealPassed();
     const limit = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     document.documentElement.style.setProperty("--journey", String(Math.min(1, Math.max(0, window.scrollY / limit))));
     frame = 0;
@@ -63,6 +81,20 @@ function trackJourney() {
   update();
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate, { passive: true });
+}
+
+function stabilizeUserScroll() {
+  document.documentElement.style.scrollBehavior = "auto";
+  document.querySelectorAll("a[href^='#']").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const hash = link.getAttribute("href");
+      const target = document.querySelector(hash);
+      if (!target) return;
+      event.preventDefault();
+      window.history.pushState(null, "", hash);
+      target.scrollIntoView({ behavior: motionPreference.matches ? "auto" : "smooth" });
+    });
+  });
 }
 
 function addTouchLight() {
@@ -101,9 +133,10 @@ function pauseWhenHidden() {
 }
 
 export function initMotion() {
-  revealContent();
+  const revealPassed = revealContent();
   createNightLayers();
-  trackJourney();
+  trackJourney(revealPassed);
+  stabilizeUserScroll();
   addTouchLight();
   addGameParallax();
   pauseWhenHidden();
