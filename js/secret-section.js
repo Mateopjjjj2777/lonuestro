@@ -24,11 +24,20 @@ export function initSecretSection() {
   const secretTitle = document.querySelector("#secret-title");
   let gameReset = null;
   const completed = readCompletion();
+  let unlocked = completed;
+
+  const setPostGameAccess = (available) => {
+    if (!secret || !finale) return;
+    [secret, finale].forEach((section) => {
+      section.hidden = !available;
+      section.inert = !available;
+      section.setAttribute("aria-hidden", String(!available));
+    });
+  };
 
   const showUnlocked = ({ move = true } = {}) => {
     if (!secret || !finale) return;
-    secret.hidden = false;
-    finale.hidden = false;
+    setPostGameAccess(true);
     document.body.classList.add("rose-found");
     if (returnPortal) returnPortal.hidden = false;
     if (move) {
@@ -41,6 +50,8 @@ export function initSecretSection() {
   };
 
   const unlock = () => {
+    if (unlocked) return;
+    unlocked = true;
     saveCompletion();
     showUnlocked();
   };
@@ -50,9 +61,6 @@ export function initSecretSection() {
   };
 
   replayButton?.addEventListener("click", () => {
-    secret.hidden = true;
-    finale.hidden = true;
-    document.body.classList.remove("rose-found");
     if (gameReset) gameReset();
   });
 
@@ -66,6 +74,7 @@ export function initSecretSection() {
   });
 
   if (completed) showUnlocked({ move: false });
+  else setPostGameAccess(false);
 
   return { completed, unlock, setGameReset };
 }
