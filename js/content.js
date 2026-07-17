@@ -11,14 +11,14 @@ export const starMemories = [
     x: 51,
     y: 20,
     size: ".38rem",
-    text: "aquí viven los audios eternos, las risas y todas las historias que sólo nosotros sabemos contar correctamente"
+    text: "aquí viven los audios, las risas y todas las historias que sólo nosotros sabemos contar "
   },
   {
     id: "random",
     x: 82,
     y: 31,
     size: ".5rem",
-    text: "esta estrella todavía se ríe de nuestros NPC, de las capybaras y de todas esas cosas random que contigo terminaron teniendo sentido"
+    text: "esta estrella todavía se ríe de nuestras bromas cuando nos conocimos en la escuela y de todas esas cosas random que contigo terminaron teniendo sentido"
   },
   {
     id: "abrazos",
@@ -39,14 +39,14 @@ export const starMemories = [
     x: 13,
     y: 68,
     size: ".5rem",
-    text: "aquí viven los cafés, las tareas, las risas, el caos y cada instante sencillo que terminó convirtiéndose en un recuerdo"
+    text: "aquí viven las tareas, las risas, el caos y cada instante sencillo que terminó convirtiéndose en un recuerdo"
   },
   {
     id: "ay-amoor",
     x: 43,
     y: 63,
     size: ".42rem",
-    text: "esta estrella aprendió la forma en que dices “ay amoor”"
+    text: "esta estrella aprendió la forma en que dices “Mate0 o Amooooor”"
   },
   {
     id: "besos",
