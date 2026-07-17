@@ -1,0 +1,224 @@
+@media (max-width: 350px) {
+  :root {
+    --reading: min(100% - 2.15rem, 35rem);
+  }
+
+  body {
+    font-size: 1.05rem;
+  }
+
+  .threshold-words {
+    gap: 1.65rem;
+  }
+
+  .threshold-words p {
+    font-size: 1.25rem;
+  }
+
+  .letter-passage p {
+    font-size: 1.17rem;
+  }
+
+  .audio-player {
+    width: calc(100% - 1.25rem);
+    padding: 1.15rem;
+  }
+
+  .audio-secondary-controls {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+
+  .volume-control {
+    min-height: 2.5rem;
+  }
+
+  .game-heading .eyebrow {
+    display: none;
+  }
+
+  .game-heading h2 {
+    font-size: 2rem;
+  }
+
+  .star-message p {
+    font-size: 1.08rem;
+  }
+}
+
+@media (min-width: 700px) {
+  :root {
+    --reading: min(100% - 5rem, 40rem);
+  }
+
+  body {
+    font-size: 1.22rem;
+  }
+
+  .journey-thread {
+    inset-inline-end: 1rem;
+  }
+
+  .letter-left {
+    transform-origin: left center;
+  }
+
+  .letter-right {
+    transform-origin: right center;
+  }
+
+  .letter-passage p {
+    line-height: 1.78;
+  }
+
+  .missing-heading h2 {
+    max-width: 10ch;
+  }
+
+  .missing-list li {
+    min-height: 68svh;
+  }
+
+  .game-stage {
+    width: min(100%, 54rem);
+    margin-inline: auto;
+  }
+
+  .rose-reveal-copy p {
+    inset-inline: 2rem;
+  }
+
+  .planet-horizon {
+    inset-block-end: -24rem;
+  }
+
+  .secret-letters details {
+    padding-block: 2.5rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .threshold-words {
+    width: 35rem;
+  }
+
+  .dawn-thought {
+    min-height: 85svh;
+  }
+
+  .letter-world::before {
+    inset-inline-start: calc(50% - 28rem);
+  }
+
+  .letter-passage {
+    width: min(46rem, calc(100% - 6rem));
+  }
+
+  .letter-left {
+    padding-inline: 0 9rem;
+    transform: translateX(-5rem);
+  }
+
+  .letter-right {
+    padding-inline: 9rem 0;
+    transform: translateX(5rem);
+  }
+
+  .js .letter-left.reveal, .js .letter-right.reveal {
+    transform: translate3d(0, 1.4rem, 0) scale(.985);
+  }
+
+  .js .letter-left.reveal.is-visible {
+    transform: translate3d(-5rem, 0, 0) scale(1);
+  }
+
+  .js .letter-right.reveal.is-visible {
+    transform: translate3d(5rem, 0, 0) scale(1);
+  }
+
+  .missing-heading, .missing-list, .distance-coda, .promise-column, .voice-heading, .secret-heading, .secret-letters {
+    width: min(100% - 5rem, 43rem);
+  }
+
+  .missing-list li {
+    font-size: 2.8rem;
+  }
+
+  .invitation-copy {
+    width: 43rem;
+  }
+
+  .audio-player {
+    width: 34rem;
+  }
+
+  .rose-reveal-copy p {
+    max-width: 36rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) and (pointer: coarse) {
+  .orientation-note {
+    display: block;
+  }
+
+  .threshold {
+    min-height: 36rem;
+  }
+
+  .first-star {
+    inset-block-start: 12%;
+  }
+
+  .threshold-words {
+    gap: 1rem;
+    margin-block-start: 1.5rem;
+  }
+
+  .threshold-words p {
+    font-size: 1.2rem;
+  }
+
+  .game-stage {
+    min-height: 38rem;
+  }
+
+  .planet-scene {
+    min-height: 35rem;
+  }
+
+  .living-rose {
+    inset-block-end: 4rem;
+    max-height: 18rem;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --ink-soft: #37312c;
+    --hairline: rgba(51, 40, 29, .42);
+  }
+
+  .threshold-words p, .promise, .voice, .secret, .finale, .rose-game, .rose-reveal {
+    color: #fff5d8;
+  }
+
+  .eyebrow, .voice-heading > p, .audio-status, .game-heading p, .secret-heading > p, .final-signature p {
+    opacity: .9;
+    color: currentColor;
+  }
+
+  .audio-player, .star-message {
+    border-color: rgba(255,255,255,.5);
+  }
+}
+
+@media (forced-colors: active) {
+  .first-star span, .game-star::before, .rose-game .final-star span, .final-mark .final-star {
+    background: CanvasText;
+  }
+
+  .game-star, .audio-icon-button, .rose-access, .story-link, summary {
+    forced-color-adjust: none;
+  }
+}

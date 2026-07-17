@@ -1,0 +1,525 @@
+.rose-game {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(37, 59, 95, .5), transparent 26%),
+    radial-gradient(circle at 85% 70%, rgba(50, 45, 79, .35), transparent 28%),
+    #060b15;
+  color: var(--cream-light);
+}
+
+.game-stage {
+  position: relative;
+  width: 100%;
+  min-height: max(100svh, 46rem);
+  overflow: hidden;
+  padding: calc(var(--safe-top) + 1.3rem) calc(var(--safe-right) + .5rem) calc(var(--safe-bottom) + 1rem) calc(var(--safe-left) + .5rem);
+  transition: filter 1.6s ease, transform 2.6s var(--ease), background 1.6s ease;
+}
+
+.game-stage::before, .game-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.game-stage::before {
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(244,230,189,.5) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 25% 54%, rgba(244,230,189,.28) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 45% 31%, rgba(244,230,189,.34) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 72% 17%, rgba(244,230,189,.32) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 86% 43%, rgba(244,230,189,.22) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 60% 76%, rgba(244,230,189,.3) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 20% 88%, rgba(244,230,189,.25) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 91% 91%, rgba(244,230,189,.3) 0 1px, transparent 1.4px);
+}
+
+.game-stage::after {
+  background: radial-gradient(circle at var(--game-x, 50%) var(--game-y, 50%), rgba(203,178,123,.08), transparent 23%);
+  transition: background-position .4s ease;
+}
+
+.game-heading {
+  position: relative;
+  z-index: 8;
+  width: min(100%, 28rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.game-heading .eyebrow {
+  margin-block-end: .4rem;
+  font-size: .66rem;
+}
+
+.game-heading h2 {
+  margin-block-end: .2rem;
+  font-size: clamp(2.2rem, 10vw, 3.7rem);
+  line-height: 1;
+}
+
+.game-heading p {
+  margin: 0;
+  color: rgba(244,230,189,.53);
+  font: .7rem/1.5 var(--sans);
+  letter-spacing: .05em;
+}
+
+.constellation-map {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.constellation-map line {
+  stroke: rgba(215, 197, 153, .5);
+  stroke-width: .18;
+  stroke-dasharray: 4 3;
+  opacity: 0;
+  transition: opacity 1.1s var(--ease), stroke 1.1s ease, stroke-width 1.1s ease;
+  vector-effect: non-scaling-stroke;
+}
+
+.constellation-map line.is-lit {
+  opacity: .48;
+}
+
+.constellation-map circle {
+  fill: var(--cream-light);
+  opacity: .12;
+  transition: opacity .8s ease, r .8s var(--ease);
+}
+
+.constellation-map circle.is-lit {
+  r: .8;
+  opacity: .8;
+}
+
+.game-stars {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+}
+
+.game-star {
+  position: absolute;
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.game-star::before {
+  content: "";
+  width: var(--star-size, .44rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(244, 230, 189, .86);
+  box-shadow: 0 0 .75rem .14rem rgba(244, 230, 189, .32);
+  transition: transform .35s var(--ease), background .5s ease, box-shadow .5s ease, opacity 1s ease;
+}
+
+.game-star::after {
+  content: "";
+  position: absolute;
+  width: 1.65rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(244, 230, 189, .12);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.5);
+  transition: opacity .3s ease, transform .6s var(--ease);
+}
+
+.game-star:active::before {
+  transform: scale(1.7);
+}
+
+.game-star.is-visited::before {
+  background: var(--gold-soft);
+  box-shadow: 0 0 .8rem .22rem rgba(244, 230, 189, .6), 0 0 2rem .45rem rgba(203, 178, 123, .14);
+  transform: scale(1.18);
+}
+
+.game-star.is-visited::after {
+  opacity: .55;
+  transform: scale(1);
+}
+
+.game-star:focus-visible {
+  outline-offset: -4px;
+  border-radius: 50%;
+}
+
+.star-message {
+  position: absolute;
+  z-index: 20;
+  inset-inline: max(1rem, var(--safe-left)) max(1rem, var(--safe-right));
+  inset-block-end: calc(var(--safe-bottom) + 1rem);
+  max-width: 29rem;
+  margin-inline: auto;
+  padding: 1.45rem 1.35rem 1rem;
+  border: 1px solid rgba(244, 230, 189, .22);
+  background: rgba(6, 11, 21, .91);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .3);
+  backdrop-filter: blur(12px);
+}
+
+.star-message p {
+  margin: 0 0 1rem;
+  color: rgba(248, 240, 218, .9);
+  font-size: clamp(1.18rem, 5.5vw, 1.55rem);
+  line-height: 1.45;
+}
+
+.star-message button {
+  display: block;
+  min-height: 2.75rem;
+  margin-inline-start: auto;
+  padding: .25rem 0;
+  border-block-end: 1px solid rgba(244,230,189,.28);
+  background: transparent;
+  color: rgba(244,230,189,.62);
+  cursor: pointer;
+  font: .7rem/1.3 var(--sans);
+  letter-spacing: .07em;
+}
+
+.game-accessible-progress {
+  position: absolute;
+  z-index: 8;
+  inset-inline: 1rem;
+  inset-block-end: calc(var(--safe-bottom) + .2rem);
+  margin: 0;
+  color: rgba(244,230,189,.4);
+  font: .65rem/1.4 var(--sans);
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.rose-game .final-star {
+  position: absolute;
+  z-index: 10;
+  inset-inline-start: 50%;
+  inset-block-start: 53%;
+  display: grid;
+  width: 5rem;
+  height: 5rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(244,230,189,.08);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244,230,189,.08), transparent 65%);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  animation: final-star-arrive 1.5s var(--ease) both;
+}
+
+.rose-game .final-star span {
+  width: .75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f2d9a1;
+  box-shadow: 0 0 1rem .32rem rgba(244,230,189,.65), 0 0 4rem 1.2rem rgba(203,178,123,.2);
+  animation: breathe-star 2.8s ease-in-out infinite;
+}
+
+.constellation-rose {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-start: 51%;
+  width: min(52vw, 14rem);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.8);
+  transition: opacity 1.5s .5s ease, transform 2.1s .5s var(--ease);
+}
+
+.constellation-rose path {
+  fill: none;
+  stroke: var(--gold-soft);
+  stroke-width: 1.2;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+}
+
+.game-stage.is-revealing {
+  background: #030711;
+  transform: scale(1.055);
+}
+
+.game-stage.is-revealing .game-star {
+  pointer-events: none;
+}
+
+.game-stage.is-revealing .game-star::before, .game-stage.is-revealing .game-heading, .game-stage.is-revealing .game-accessible-progress {
+  opacity: .08;
+  transition: opacity 1.2s ease;
+}
+
+.game-stage.is-revealing .constellation-map line {
+  stroke: rgba(244,230,189,.88);
+  stroke-width: .34;
+  opacity: .8;
+}
+
+.game-stage.is-revealing .constellation-rose {
+  opacity: .82;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.game-stage.is-revealing .constellation-rose path {
+  animation: draw-constellation-rose 2.3s .4s var(--ease) forwards;
+}
+
+.rose-reveal {
+  min-height: 430svh;
+  overflow: clip;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(44, 67, 107, .45), transparent 30%),
+    linear-gradient(to bottom, #030711 0, #081125 32%, #0b1830 72%, #050a13 100%);
+  color: var(--cream-light);
+}
+
+.planet-scene {
+  position: sticky;
+  z-index: 2;
+  inset-block-start: 0;
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: end center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.planet-aura {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 7%;
+  width: min(130vw, 42rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244,230,189,.18), rgba(91,111,145,.08) 38%, transparent 67%);
+  filter: blur(8px);
+  opacity: 0;
+  transform: translate(-50%, 48%) scale(.65);
+  transition: opacity 2s 1.4s ease, transform 2.8s 1.2s var(--ease);
+}
+
+.planet-horizon {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: -35vw;
+  width: 140vw;
+  max-width: 56rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(244,230,189,.32);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 18%, rgba(195,166,121,.19), transparent 14%),
+    radial-gradient(circle at 66% 14%, rgba(48,70,91,.5), transparent 23%),
+    linear-gradient(145deg, #24354b, #111d30 55%, #080f1d);
+  box-shadow: inset 0 .45rem 2rem rgba(244,230,189,.08), 0 -1rem 4rem rgba(112,135,175,.14);
+  opacity: 0;
+  transform: translate(-50%, 35%) scale(.72);
+  transition: opacity 2s 1.5s ease, transform 3.1s 1.2s var(--ease);
+}
+
+.living-rose {
+  position: absolute;
+  z-index: 4;
+  inset-inline-start: 50%;
+  inset-block-end: max(6.5rem, 15svh);
+  width: min(47vw, 13rem);
+  max-height: 48svh;
+  opacity: 0;
+  overflow: visible;
+  transform: translateX(-50%) scale(.82);
+  transform-origin: center bottom;
+  transition: opacity 1s 2.8s ease, transform 2s 2.8s var(--ease);
+}
+
+.rose-stem path {
+  fill: none;
+  stroke: #cfbc85;
+  stroke-width: 3;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+}
+
+.rose-stem .rose-leaf {
+  fill: #52634f;
+  stroke-width: 2;
+}
+
+.rose-bloom .petal-one {
+  fill: #935e68;
+  stroke: #e2c48d;
+  stroke-width: 2.5;
+  opacity: 0;
+  transform: scale(.18) translateY(8rem);
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.rose-bloom .petal-line {
+  fill: none;
+  stroke: #ddb2ad;
+  stroke-width: 2;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+}
+
+.rose-reveal-copy {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.rose-reveal-copy p {
+  position: absolute;
+  inset-inline: max(1.6rem, var(--safe-left)) max(1.6rem, var(--safe-right));
+  max-width: 29rem;
+  margin: 0 auto;
+  color: rgba(248,240,218,.88);
+  font-size: clamp(1.5rem, 7vw, 2.7rem);
+  line-height: 1.32;
+  text-align: center;
+}
+
+.rose-reveal-copy p:nth-child(1) { inset-block-start: 12svh; }
+.rose-reveal-copy p:nth-child(2) { inset-block-start: 59svh; }
+.rose-reveal-copy p:nth-child(3) { inset-block-start: 118svh; }
+.rose-reveal-copy p:nth-child(4) { inset-block-start: 177svh; }
+.rose-reveal-copy p:nth-child(5) { inset-block-start: 245svh; }
+.rose-reveal-copy p:nth-child(6) { inset-block-start: 305svh; }
+.rose-reveal-copy p:nth-child(7) { inset-block-start: 355svh; }
+
+.rose-reveal-copy .rose-home {
+  color: var(--cream-light);
+  font-size: clamp(1.8rem, 8.4vw, 3.4rem);
+}
+
+.rose-access {
+  position: absolute;
+  z-index: 10;
+  inset-inline-start: 50%;
+  inset-block-end: calc(var(--safe-bottom) + 4rem);
+  display: grid;
+  width: 8rem;
+  min-height: 10rem;
+  place-items: center;
+  padding: .25rem;
+  background: transparent;
+  color: rgba(244,230,189,.67);
+  cursor: pointer;
+  font: 500 .7rem/1.4 var(--sans);
+  letter-spacing: .1em;
+  transform: translateX(-50%);
+}
+
+.rose-access img {
+  width: 5rem;
+  max-height: 7rem;
+  opacity: .84;
+  transition: transform .7s var(--ease), filter .7s ease;
+  transform-origin: 50% 90%;
+}
+
+.rose-access:active img {
+  transform: scale(.96) rotate(1deg);
+}
+
+.rose-reveal.is-awake .planet-aura, .rose-reveal.is-awake .planet-horizon {
+  opacity: 1;
+  transform: translate(-50%, 35%) scale(1);
+}
+
+.rose-reveal.is-awake .planet-aura {
+  transform: translate(-50%, 48%) scale(1);
+}
+
+.rose-reveal.is-awake .living-rose {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.rose-reveal.is-awake .rose-stem path {
+  animation: draw-rose 2.2s 3s var(--ease) forwards;
+}
+
+.rose-reveal.is-awake .rose-bloom .petal-one {
+  animation: bloom-rose 2.4s 4.65s var(--ease) forwards, rose-breathe 6s 7.2s ease-in-out infinite;
+}
+
+.rose-reveal.is-awake .rose-bloom .petal-line {
+  animation: draw-rose 1.7s 5.45s var(--ease) forwards;
+}
+
+@keyframes final-star-arrive {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.35); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes draw-constellation-rose {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes draw-rose {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes bloom-rose {
+  0% { opacity: 0; transform: scale(.18) translateY(8rem); }
+  60% { opacity: 1; transform: scale(1.06) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes rose-breathe {
+  0%, 100% { transform: rotate(-.5deg) scale(1); }
+  50% { transform: rotate(.6deg) scale(1.018); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-stage.is-revealing, .game-stage.is-revealing .constellation-rose {
+    transform: none;
+  }
+
+  .constellation-rose path, .rose-stem path, .rose-bloom .petal-line {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .rose-reveal .planet-aura, .rose-reveal .planet-horizon {
+    opacity: 1;
+    transform: translate(-50%, 35%) scale(1);
+  }
+
+  .rose-reveal .planet-aura {
+    transform: translate(-50%, 48%) scale(1);
+  }
+
+  .rose-reveal .living-rose {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .rose-bloom .petal-one {
+    opacity: 1;
+    transform: none;
+  }
+}
